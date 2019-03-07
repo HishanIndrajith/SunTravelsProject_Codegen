@@ -13,22 +13,27 @@ public class ContractService
 	@Autowired
 	private ContractRepository contractRepository;
 	public Collection<Contract> getAllContracts(){
-		return contractRepository.getAllContracts();
+		return contractRepository.findAll();
 	}
 
-	public Contract getContractById(int id){
-		return contractRepository.getContractById( id );
+	public Contract getContractById(long id){
+		return contractRepository.findById( id ).get();
 	}
 
-	public void removeContractById( int id )
+	public void removeContractById( long id )
 	{
-		contractRepository.removeContractById(id);
+		contractRepository.deleteById( id );
 	}
-	public void updateContract(Contract contract )
+	public Contract updateContract(Contract contract )
 	{
-		contractRepository.updateContract( contract );
+		if ( contractRepository.existsById( contract.getId() ) )
+		{
+			return contractRepository.save( contract );
+		}
+
+		return null;
 	}
-	public void insertContract(Contract contract ){
-		contractRepository.insertContract(contract );
+	public Contract insertContract(Contract contract ){
+		return contractRepository.save( contract );
 	}
 }
