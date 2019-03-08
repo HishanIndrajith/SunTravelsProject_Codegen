@@ -1,9 +1,11 @@
 package net.codegen.Models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +13,8 @@ import java.util.List;
 public class Contract
 {
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@Column(name = "contract_id")
 	private long id;
 	private Date startDate;
 	private Date endDate;
@@ -22,22 +25,12 @@ public class Contract
 	@JoinColumn(name = "hotel", referencedColumnName = "hotelId")
 	private Hotel hotel;
 
-//	@JsonCreator
-//	public Contract( @JsonProperty("id") long id, @JsonProperty("startDate") Date startDate, @JsonProperty("endDate") Date endDate, @JsonProperty("roomType") List<RoomType> roomTypes,@JsonProperty("hotel") Hotel hotel )
-//	{
-//		this.id = id;
-//		this.startDate = startDate;
-//		this.endDate = endDate;
-//		this.roomTypes = roomTypes;
-//		this.hotel = hotel;
-//	}
-
 	public long getId()
 	{
 		return id;
 	}
 
-	public void setId( int id )
+	public void setId( long id )
 	{
 		this.id = id;
 	}
@@ -62,16 +55,20 @@ public class Contract
 		this.endDate = endDate;
 	}
 
+	@JsonManagedReference
 	public List<RoomType> getRoomTypes()
 	{
 		return roomTypes;
 	}
 
-	public void setRoomType( List<RoomType> roomTypes )
+	public void setRoomTypes( List<RoomType> roomTypes )
 	{
+		for(RoomType roomType:roomTypes){
+			roomType.setContract( this );
+		}
 		this.roomTypes = roomTypes;
 	}
-//
+
 	public Hotel getHotel()
 	{
 		return hotel;

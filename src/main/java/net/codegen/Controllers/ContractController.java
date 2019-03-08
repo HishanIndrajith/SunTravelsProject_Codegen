@@ -1,6 +1,7 @@
 package net.codegen.Controllers;
 
 import net.codegen.Models.Contract;
+import net.codegen.Models.RoomType;
 import net.codegen.Services.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,8 +16,10 @@ public class ContractController
 	@Autowired
 	private ContractService contractService;
 
+	//Get the list of contracts
 	@RequestMapping(method = RequestMethod.GET)
 	public Collection<Contract> getAllContracts(){
+		System.out.println("get");
 		return contractService.getAllContracts();
 	}
 
@@ -37,6 +40,6 @@ public class ContractController
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void insertContract(@RequestBody Contract contract ){
-		contractService.insertContract(contract );
+		Contract savedContract = contractService.insertContract(contract );
 	}
 }

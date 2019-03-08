@@ -7,7 +7,7 @@ import java.util.List;
 public class Hotel
 {
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private long hotelId;
 	private String hotelName;
 	private String address;
@@ -24,12 +24,6 @@ public class Hotel
 	{
 		return hotelId;
 	}
-
-	public void setHotelId( int hotelId )
-	{
-		this.hotelId = hotelId;
-	}
-
 	public String getHotelName()
 	{
 		return hotelName;
@@ -48,5 +42,10 @@ public class Hotel
 	public void setAddress( String address )
 	{
 		this.address = address;
+	}
+
+	public void setHotelId( long hotelId )
+	{
+		this.hotelId = hotelId;
 	}
 }

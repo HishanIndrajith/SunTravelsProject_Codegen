@@ -1,12 +1,15 @@
 package net.codegen.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 public class RoomType
 {
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private long id;
 	private String typeName;
 	private double price;
@@ -14,26 +17,16 @@ public class RoomType
 	private int availableRooms;
 	private int maxadults;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="contractId", referencedColumnName = "id")
+	@ManyToOne
+	@JoinColumn(name = "contract")
 	private Contract contract;
-
-//	public RoomType( long id, String typeName, double price, int noOfRooms, int availableRooms, int maxadults )
-//	{
-//		this.id = id;
-//		this.typeName = typeName;
-//		this.price = price;
-//		this.noOfRooms = noOfRooms;
-//		this.availableRooms = availableRooms;
-//		this.maxadults = maxadults;
-//	}
 
 	public long getId()
 	{
 		return id;
 	}
 
-	public void setId( int id )
+	public void setId( long id )
 	{
 		this.id = id;
 	}
@@ -86,5 +79,15 @@ public class RoomType
 	public void setMaxadults( int maxadults )
 	{
 		this.maxadults = maxadults;
+	}
+	@JsonBackReference //stop refering inside
+	public Contract getContract()
+	{
+		return contract;
+	}
+
+	public void setContract( Contract contract )
+	{
+		this.contract = contract;
 	}
 }
