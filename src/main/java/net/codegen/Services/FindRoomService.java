@@ -28,14 +28,32 @@ public class FindRoomService
 		String startDateString = dateFormat.format(startDate);
 		String endDateString = dateFormat.format(endDate);
 
-		List<Integer> roomMemberCountList = requirement.getRooms();
-		int maxCountForRooms = Collections.max(roomMemberCountList);
-		List <RoomType> roomTypeResult = findRoomRepository.findAvailableRooms(startDateString,endDateString,maxCountForRooms,roomMemberCountList.size());
+		List<Integer> roomAdultsCountList = requirement.getPersons();
+		List<Integer> roomCountList = requirement.getRooms();
+		int originalSize=roomAdultsCountList.size();
+		int totalNoOfAdults = 0;
+		for(int i=0;i<originalSize;i++){
+			int noOfAdultsForARoom = roomAdultsCountList.get(i);
+			totalNoOfAdults+=noOfAdultsForARoom;
+			int noOfRoomsNeeded= roomCountList.get(i);
+			if(noOfRoomsNeeded>1){
+				for(int j =1;j<noOfRoomsNeeded;j++){
+					roomAdultsCountList.add( noOfAdultsForARoom );
+					totalNoOfAdults+=noOfAdultsForARoom;
+				}
+			}
+		}
+		int maxCountForRooms = Collections.max(roomAdultsCountList);
+
+		List <RoomType> roomTypeResult = findRoomRepository.findAvailableRooms(startDateString,endDateString,maxCountForRooms,roomAdultsCountList.size());
 
 		List <Result> results = new ArrayList<>( );
 
 		for(RoomType roomType : roomTypeResult){
-			Result result = new Result(roomType.getContract().getHotel().getHotelName(),roomType.getTypeName(),1000);
+			String name = roomType.getContract().getHotel().getHotelName()+" "+roomType.getContract().getHotel().getAddress();
+			double price = (double)(roomType.getPrice()*1.15*requirement.getNoOfnights()*totalNoOfAdults);
+			price = Math.round(price * 100.0) / 100.0;
+			Result result = new Result(name,roomType.getTypeName(),price);
 			results.add(result);
 		}
 		return results;

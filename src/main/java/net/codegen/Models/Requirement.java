@@ -13,12 +13,14 @@ public class Requirement
 	private Date checkInDate;
 	private int noOfnights;
 	private List<Integer> rooms;
+	private List<Integer> persons;
 
-	public Requirement(@JsonProperty("checkInDate") Date checkInDate, @JsonProperty("noOfnights") int noOfnights,@JsonProperty("rooms") List<Integer> rooms )
+	public Requirement(@JsonProperty("checkInDate") Date checkInDate, @JsonProperty("noOfnights") int noOfnights,@JsonProperty("rooms") List<Integer> rooms,@JsonProperty("persons") List<Integer> persons )
 	{
 		this.checkInDate = checkInDate;
 		this.noOfnights = noOfnights;
 		this.rooms = rooms;
+		this.persons = persons;
 	}
 
 	public Date getCheckInDate()
@@ -49,6 +51,16 @@ public class Requirement
 	public void setRooms( List<Integer> rooms )
 	{
 		this.rooms = rooms;
+	}
+
+	public List<Integer> getPersons()
+	{
+		return persons;
+	}
+
+	public void setPersons( List<Integer> persons )
+	{
+		this.persons = persons;
 	}
 }
 
