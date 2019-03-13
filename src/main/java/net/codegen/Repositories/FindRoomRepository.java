@@ -14,8 +14,8 @@ import java.util.List;
 public interface FindRoomRepository extends JpaRepository<RoomType, Long>
 {
 //	@Query("SELECT * FROM contract")
-	@Query(value = "SELECT * FROM room_type AS r INNER JOIN contract AS c ON r.contract=c.contract_id INNER JOIN hotel AS h ON c.hotel=h.hotel_id WHERE c.start_date < ?1 AND c.end_date > ?2",
+	@Query(value = "SELECT * FROM room_type AS r INNER JOIN contract AS c ON r.contract=c.contract_id INNER JOIN hotel AS h ON c.hotel=h.hotel_id WHERE c.start_date < ?1 AND c.end_date > ?2 AND r.maxadults >= ?3 AND r.available_rooms >= ?4",
 			nativeQuery = true)
-	List<RoomType> findAvailableRooms(String beginDate, String endDate);
+	List<RoomType> findAvailableRooms(String beginDate, String endDate,int maxAdults,int neededRoomCount);
 
 }

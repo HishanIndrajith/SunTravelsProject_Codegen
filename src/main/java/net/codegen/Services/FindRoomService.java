@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class FindRoomService
@@ -30,13 +27,13 @@ public class FindRoomService
 		Date endDate = addDaystoDate(startDate,requirement.getNoOfnights());
 		String startDateString = dateFormat.format(startDate);
 		String endDateString = dateFormat.format(endDate);
-		System.out.println(startDateString);
-		System.out.println(endDateString);
-		List <RoomType> roomTypeResult = findRoomRepository.findAvailableRooms(startDateString,endDateString);
+
+		List<Integer> roomMemberCountList = requirement.getRooms();
+		int maxCountForRooms = Collections.max(roomMemberCountList);
+		List <RoomType> roomTypeResult = findRoomRepository.findAvailableRooms(startDateString,endDateString,maxCountForRooms,roomMemberCountList.size());
 
 		List <Result> results = new ArrayList<>( );
 
-		System.out.println(results.size());
 		for(RoomType roomType : roomTypeResult){
 			Result result = new Result(roomType.getContract().getHotel().getHotelName(),roomType.getTypeName(),1000);
 			results.add(result);
