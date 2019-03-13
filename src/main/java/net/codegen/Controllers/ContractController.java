@@ -11,7 +11,7 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/contracts")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ContractController
 {
 	@Autowired
@@ -19,7 +19,7 @@ public class ContractController
 
 	//Get the list of contracts
 	@RequestMapping(method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:4200/")
+	//@CrossOrigin(origins = "http://localhost:4200/")
 	public Collection<Contract> getAllContracts(){
 		System.out.println("get");
 		return contractService.getAllContracts();

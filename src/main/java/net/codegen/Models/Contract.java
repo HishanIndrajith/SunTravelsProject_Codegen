@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity // This tells Hibernate to make a table out of this class
+@Entity// This tells Hibernate to make a table out of this class
 public class Contract
 {
 	@Id
